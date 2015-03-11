@@ -81,8 +81,10 @@ public class testDatabaseController
 		{
 			Statement firstStatement = databaseConnection.createStatement();
 			ResultSet answers = firstStatement.executeQuery(query);
+			//takes the results and turns them into a result.
 			ResultSetMetaData answerData = answers.getMetaData();
 			
+			//gets the answer data and converts it to the number of columns.
 			columns = new String[answerData.getColumnCount()];
 			
 			for(int column = 0; column < answerData.getColumnCount(); column++)
@@ -117,13 +119,16 @@ public class testDatabaseController
 			ResultSet answers = firstStatement.executeQuery(query);
 			
 			answers.last();
+			//Gets the number of rows that will get the answer.
 			int numberOfRows = answers.getRow();
 			answers.beforeFirst();
 			
+			//Will show the results of the number of rows.
 			results = new String [numberOfRows][1];
 			
 			while(answers.next())
 			{
+				//The method that compiles the answer to get the results.
 				results[answers.getRow()-1][0] = answers.getString(1);
 			}
 			
@@ -132,6 +137,7 @@ public class testDatabaseController
 		}
 		catch(SQLException currentException)
 		{
+			//Makes sure that if the results are empty it shows the error.
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
