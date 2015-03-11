@@ -39,6 +39,9 @@ public class testDatabasePanel extends JPanel
 		setupListeners();
 	}
 	
+	/**
+	 * Sets up the pane where the results are shown.
+	 */
 	private void setupDisplayPane()
 	{
 		displayArea.setWrapStyleWord(true);
@@ -57,6 +60,9 @@ public class testDatabasePanel extends JPanel
 		displayPane = new JScrollPane(resultsTable);
 	}
 	
+	/**
+	 * Sets up the pane, button, size, and color.
+	 */
 	private void setupPanel()
 	{
 		this.setBackground(Color.GREEN);
@@ -66,6 +72,9 @@ public class testDatabasePanel extends JPanel
 		this.add(queryButton);
 	}
 	
+	/**
+	 * Creates the layout for the pane and button.
+	 */
 	private void setupLayout()
 	{
 		baseLayout.putConstraint(SpringLayout.NORTH, queryButton, 50, SpringLayout.NORTH, this);

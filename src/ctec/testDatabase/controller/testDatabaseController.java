@@ -161,6 +161,7 @@ public class testDatabaseController
 			
 			while(answers.next())
 			{
+				//the name of the tables is equal to or greater than the string.
 				tableNames += answers.getString(1) + "\n";
 			}
 			answers.close();
