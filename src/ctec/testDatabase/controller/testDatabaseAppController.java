@@ -34,6 +34,9 @@ public class testDatabaseAppController
 		return dataController;
 	}
 
+	/**
+	 * starts the program.
+	 */
 	public void start()
 	{
 		

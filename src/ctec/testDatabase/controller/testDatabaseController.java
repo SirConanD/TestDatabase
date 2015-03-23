@@ -10,6 +10,7 @@ public class testDatabaseController
 	private Connection databaseConnection;
 	private testDatabaseAppController baseController;
 	private String query;
+	private String currentQuery;
 	
 	/**
 	 * calls the controller and the connection string.  It also sets up the driver checker and the connection.
@@ -23,14 +24,71 @@ public class testDatabaseController
 		setupConnection();
 	}
 	
+	/**
+	 * Sets the query to be called for.
+	 * @return The query
+	 */
 	public String getQuery()
 	{
 		return query;
 	}
 	
+	/**
+	 * Calls the method query.
+	 * @param query The method above.
+	 */
 	public void setQuery(String query)
 	{
 		this.query = query;
+	}
+	
+	/**
+	 * Checks the current query for any violations of the data in the database.
+	 * @return if it is true or false.
+	 */
+	private boolean checkForDataViolation()
+	{
+		if(currentQuery.toUpperCase().contains(" DROP ") || currentQuery.toUpperCase().contains(" TRUNCATE ") || currentQuery.toUpperCase().contains(" SET ") || currentQuery.toUpperCase().contains(" ALTER "))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * checks if there is a violation of the database structure.
+	 * @return if it is true or false.
+	 */
+	private boolean checkForStructureViolation()
+	{
+		if(currentQuery.toUpperCase().contains("DATABASE"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * builds a connection so it can connect to any database.
+	 * @param pathToDBServer The path to the database.
+	 * @param databaseName The databases name.
+	 * @param userName the name of the user.
+	 * @param password the users password.
+	 */
+	public void connectionStringBuilder(String pathToDBServer, String databaseName, String userName, String password)
+	{
+		connectionString = "jdbc:mysql://";
+		connectionString += pathToDBServer;
+		connectionString += "/" + databaseName;
+		connectionString += "?user=" + userName;
+		connectionString += "&password=" + password;
 	}
 	
 	/**
@@ -67,7 +125,7 @@ public class testDatabaseController
 	/**
 	 * sets up the connection to the database and starts to get the information.
 	 */
-	private void setupConnection()
+	public void setupConnection()
 	{
 		try
 		{
@@ -117,23 +175,9 @@ public class testDatabaseController
 		return columns;
 	}
 	
-	private boolean checkQueryForDataViolation()
-	{
-		if(query.toUpperCase().contains(" DROP ")
-				|| query.toUpperCase().contains(" TRUNCATE ")
-				|| query.toUpperCase().contains(" SET ")
-				|| query.toUpperCase().contains(" ALTER "))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}	
-	}
 	
 	/**
-	 * 
+	 * Selects the results of the query.
 	 * @param query
 	 * @return
 	 */
@@ -143,7 +187,7 @@ public class testDatabaseController
 		this.query = query;		
 		try
 		{
-			if(checkQueryForDataViolation())
+			if(checkForDataViolation())
 			{
 				throw new SQLException("There was an attempt ata a data violation", 
 						               "you dont get to mess with data in here ", 
@@ -188,7 +232,10 @@ public class testDatabaseController
 		return results;		
 	}
 	
-	
+	/**
+	 * Returns the results of the rows and columns.
+	 * @return
+	 */
 	public String [][] realResults()
 	{
 		String [][] results;
@@ -302,6 +349,10 @@ public class testDatabaseController
 		return tableNames;
 	}
 	
+	/**
+	 * A method that inserts data in to the database.
+	 * @return Shows where the new data affected the table.
+	 */
 	public int insertSample()
 	{
 		int rowsAffected = -1;
@@ -321,6 +372,51 @@ public class testDatabaseController
 		return rowsAffected;
 	}
 	
+	/**
+	 * creates a statement that lets a person drop data from a database.
+	 * @param query
+	 */
+	public void dropStatement(String query)
+	{
+		currentQuery = query;
+		String results;
+		try
+		{
+			if(checkForStructureViolation())
+			{
+				throw new SQLException("you are not allowed to drop the database","Try another query", Integer.MIN_VALUE);
+			}
+			
+			if(currentQuery.toUpperCase().contains(" INDEX "))
+			{
+				results = "The index was ";
+			}
+			else
+			{
+				results = "The table was ";
+			}
+			
+			Statement dropStatement = databaseConnection.createStatement();
+			int affected = dropStatement.executeUpdate(currentQuery);
+			
+			dropStatement.close();
+			
+			if(affected == 0)
+			{
+				results += "dropped";
+			}
+			JOptionPane.showMessageDialog(baseController.getAppFrame(), results);
+		}
+		catch(SQLException dropError)
+		{
+			displayErrors(dropError);
+		}
+	}
+	
+	/**
+	 * The method that checks for SQL errors and then displays them.
+	 * @param currentException Checks the exception that is currently happening.
+	 */
 	public void displayErrors(Exception currentException)
 	{
 		JOptionPane.showMessageDialog(baseController.getAppFrame(), "Exception: " + currentException.getMessage());

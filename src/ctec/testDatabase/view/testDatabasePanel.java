@@ -1,6 +1,7 @@
 package ctec.testDatabase.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ public class testDatabasePanel extends JPanel
 	private JScrollPane displayPane;
 	private JTextArea displayArea;
 	private JTable resultsTable;
+	private JPasswordField samplePassword;
 	
 	/**
 	 * sets up the all of the JSwing items and the layout.
@@ -32,6 +34,7 @@ public class testDatabasePanel extends JPanel
 		queryButton = new JButton("Click here to test the query");
 		displayArea = new JTextArea(10,30);
 		displayPane = new JScrollPane(displayArea);
+		samplePassword = new JPasswordField(null, 20);
 		
 		//setupDisplayPane();
 		setupPanel();
@@ -70,6 +73,10 @@ public class testDatabasePanel extends JPanel
 		this.setLayout(baseLayout);
 		this.add(displayPane);
 		this.add(queryButton);
+		this.add(samplePassword);
+		samplePassword.setEchoChar('@');
+		samplePassword.setFont(new Font("Serif", Font.BOLD, 32));
+		samplePassword.setForeground(Color.MAGENTA);
 	}
 	
 	/**
