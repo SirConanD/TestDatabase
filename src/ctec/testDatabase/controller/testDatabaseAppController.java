@@ -1,11 +1,14 @@
 package ctec.testDatabase.controller;
 
+import java.util.ArrayList;
+import ctec.testDatabase.model.QueryInfo;
 import ctec.testDatabase.view.testDatabaseFrame;
 
 public class testDatabaseAppController
 {
 	private testDatabaseFrame appFrame;
 	private testDatabaseController dataController;
+	private ArrayList<QueryInfo> queryList;
 	
 	/**
 	 * Has the controller and the app frame.
@@ -13,6 +16,7 @@ public class testDatabaseAppController
 	public testDatabaseAppController()
 	{
 		dataController = new testDatabaseController(this);
+		queryList = new ArrayList<QueryInfo>();
 		appFrame = new testDatabaseFrame(this);
 	}
 	
@@ -32,6 +36,15 @@ public class testDatabaseAppController
 	public testDatabaseController getDataController()
 	{
 		return dataController;
+	}
+	
+	/**
+	 * Gets the info from the user's query.
+	 * @return the information from the query.
+	 */
+	public ArrayList<QueryInfo> getQueryList()
+	{
+		return queryList;
 	}
 
 	/**

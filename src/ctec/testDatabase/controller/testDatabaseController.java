@@ -1,7 +1,10 @@
 package ctec.testDatabase.controller;
 
 import java.sql.*;
+
 import javax.swing.JOptionPane;
+
+import ctec.testDatabase.model.QueryInfo;
 import ctec.testDatabase.view.testDatabaseFrame;
 
 public class testDatabaseController
@@ -11,6 +14,7 @@ public class testDatabaseController
 	private testDatabaseAppController baseController;
 	private String query;
 	private String currentQuery;
+	private long queryTime;
 	
 	/**
 	 * calls the controller and the connection string.  It also sets up the driver checker and the connection.
@@ -20,6 +24,7 @@ public class testDatabaseController
 	{
 		this.baseController = baseController;
 		this.connectionString = "jdbc:mysql://localhost/information_schema?user=root";
+		queryTime = 0;
 		checkDriver();
 		setupConnection();
 	}
@@ -145,8 +150,8 @@ public class testDatabaseController
 	{
 		String [] columns = null;
 		query = "SHOW TABLES";
-		
-		
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -165,13 +170,16 @@ public class testDatabaseController
 			
 			answers.close();
 			firstStatement.close();
+			endTime = System.currentTimeMillis();
 		}
 		catch(SQLException currentException)
 		{
+			endTime = System.currentTimeMillis();
 			columns = new String [] {"empty"};
 			displayErrors(currentException);
 		}
-		
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
 		return columns;
 	}
 	
@@ -184,7 +192,9 @@ public class testDatabaseController
 	public String [][] selectQueryResults(String query)
 	{
 		String [][] results;
-		this.query = query;		
+		this.query = query;
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 		try
 		{
 			if(checkForDataViolation())
@@ -218,9 +228,11 @@ public class testDatabaseController
 			
 			answers.close();
 			firstStatement.close();
+			endTime = System.currentTimeMillis();
 		}
 		catch(SQLException currentException)
 		{
+			endTime = System.currentTimeMillis();
 			//Makes sure that if the results are empty it shows the error.
 			results = new String [][] {{"The query did not work."},
 										{"You may want to try another query."},
@@ -228,7 +240,8 @@ public class testDatabaseController
 									  };
 			displayErrors(currentException);
 		}
-		
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
 		return results;		
 	}
 	
@@ -240,7 +253,8 @@ public class testDatabaseController
 	{
 		String [][] results;
 		query = "SELECT * FROM `INNIDB_SYS_COLUMNS`";
-				
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -267,14 +281,17 @@ public class testDatabaseController
 			
 			answers.close();
 			firstStatement.close();
+			endTime = System.currentTimeMillis();
 		}
 		catch(SQLException currentException)
 		{
+			endTime = System.currentTimeMillis();
 			//Makes sure that if the results are empty it shows the error.
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
 		return results;		
 	}
 	
@@ -286,7 +303,8 @@ public class testDatabaseController
 	{
 		String [][] results;
 		query = "SHOW TABLES";
-		
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -308,14 +326,17 @@ public class testDatabaseController
 			
 			answers.close();
 			firstStatement.close();
+			endTime = System.currentTimeMillis();
 		}
 		catch(SQLException currentException)
 		{
+			endTime = System.currentTimeMillis();
 			//Makes sure that if the results are empty it shows the error.
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
 		return results;
 	}
 	
@@ -327,7 +348,8 @@ public class testDatabaseController
 	{
 		String tableNames = "";
 		query = "SHOW TABLES";
-		
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -340,12 +362,15 @@ public class testDatabaseController
 			}
 			answers.close();
 			firstStatement.close();
+			endTime = System.currentTimeMillis();
 		}
 		catch(SQLException currentError)
 		{
+			endTime = System.currentTimeMillis();
 			displayErrors(currentError);
 		}
-		
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
 		return tableNames;
 	}
 	

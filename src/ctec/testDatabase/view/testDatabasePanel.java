@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import ctec.testDatabase.controller.testDatabaseAppController;
 import ctec.testDatabase.controller.testDatabaseController;
+import ctec.testDatabase.view.*;
 
 public class testDatabasePanel extends JPanel
 {
@@ -20,6 +21,7 @@ public class testDatabasePanel extends JPanel
 	private JButton queryButton;
 	private JScrollPane displayPane;
 	private JTextArea displayArea;
+	private TableCellWrapRenderer cellRenderer;
 	private JTable resultsTable;
 	private JPasswordField samplePassword;
 	
@@ -35,7 +37,9 @@ public class testDatabasePanel extends JPanel
 		displayArea = new JTextArea(10,30);
 		displayPane = new JScrollPane(displayArea);
 		samplePassword = new JPasswordField(null, 20);
+		cellRenderer = new TableCellWrapRenderer();
 		
+		setupTable();
 		//setupDisplayPane();
 		setupPanel();
 		setupLayout();
@@ -58,9 +62,13 @@ public class testDatabasePanel extends JPanel
 	 */
 	private void setupTable()
 	{
-		DefaultTableModel basicData = new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getMetaDataTitles());
-		resultsTable = new JTable(basicData);
+		tableData = new JTable(new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getMetaDataTitles()));
+		
 		displayPane = new JScrollPane(resultsTable);
+		for(int spot = 0; spot < tableData.getColumnCount(); spot++)
+		{
+			tableData.getColumnModel().getColumn(spot).setCellRenderer(cellRenderer);
+		}
 	}
 	
 	/**
