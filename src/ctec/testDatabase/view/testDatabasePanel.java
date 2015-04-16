@@ -40,7 +40,7 @@ public class testDatabasePanel extends JPanel
 		cellRenderer = new TableCellWrapRenderer();
 		
 		setupTable();
-		//setupDisplayPane();
+		setupDisplayPane();
 		setupPanel();
 		setupLayout();
 		setupListeners();
@@ -62,12 +62,12 @@ public class testDatabasePanel extends JPanel
 	 */
 	private void setupTable()
 	{
-		tableData = new JTable(new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getMetaDataTitles()));
+		resultsTable = new JTable(new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getMetaDataTitles()));
 		
 		displayPane = new JScrollPane(resultsTable);
-		for(int spot = 0; spot < tableData.getColumnCount(); spot++)
+		for(int spot = 0; spot < resultsTable.getColumnCount(); spot++)
 		{
-			tableData.getColumnModel().getColumn(spot).setCellRenderer(cellRenderer);
+			resultsTable.getColumnModel().getColumn(spot).setCellRenderer(cellRenderer);
 		}
 	}
 	

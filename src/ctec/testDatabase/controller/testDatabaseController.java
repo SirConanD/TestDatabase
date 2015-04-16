@@ -23,7 +23,7 @@ public class testDatabaseController
 	public testDatabaseController(testDatabaseAppController baseController)
 	{
 		this.baseController = baseController;
-		this.connectionString = "jdbc:mysql://localhost/information_schema?user=root";
+		this.connectionString = "jdbc:mysql://10.227.5.160/book_reading?user=g.fetzer&password=fetz854";
 		queryTime = 0;
 		checkDriver();
 		setupConnection();
@@ -142,14 +142,53 @@ public class testDatabaseController
 		}
 	}
 	
+	public String [] getMetaDataTitles()
+	{
+		String [] columns = null;
+		query = "SELECT * FROM `INNODB_SYS_COLUMNS`";
+		long startTime, endTime;
+		startTime = System.currentTimeMillis();
+		try
+		{
+			Statement firstStatement = databaseConnection.createStatement();
+			ResultSet answers = firstStatement.executeQuery(query);
+			//takes the results and turns them into a result.
+			ResultSetMetaData answerData = answers.getMetaData();
+			
+			
+			//gets the answer data and converts it to the number of columns.
+			columns = new String[answerData.getColumnCount()];
+			
+			for(int column = 0; column < answerData.getColumnCount(); column++)
+			{
+				columns[column] = answerData.getColumnName(column+1);
+			}
+			
+			answers.close();
+			firstStatement.close();
+			endTime = System.currentTimeMillis();
+		}
+		catch(SQLException currentException)
+		{
+			endTime = System.currentTimeMillis();
+			columns = new String [] {"empty"};
+			displayErrors(currentException);
+		}
+		queryTime = endTime - startTime;
+		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		return columns;
+	}
+	
+	
+	
 	/**
 	 * Used to get column names.
 	 * @return The name of the column.
 	 */
-	public String [] getMetaDataTitles()
+	public String [] getDatabaseColumnNames(String tableName)
 	{
 		String [] columns = null;
-		query = "SHOW TABLES";
+		query = "SELECT * FROM `"+ tableName +"`";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
 		try

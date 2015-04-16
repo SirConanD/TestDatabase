@@ -17,6 +17,7 @@ public class testDatabaseFrame extends JFrame
 	 */
 	public testDatabaseFrame(testDatabaseAppController baseController)
 	{
+		this.setSize(500,500);
 		basePanel = new testDatabasePanel(baseController);
 		setupFrame();
 	}
