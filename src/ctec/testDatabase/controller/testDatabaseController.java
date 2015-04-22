@@ -413,6 +413,25 @@ public class testDatabaseController
 		return tableNames;
 	}
 	
+	public void submitUpdateQuery(String query)
+	{
+		this.query = query;
+		long startTime = System.currentTimeMillis();
+		long endTime = 0;
+		try
+		{
+			Statement updateStatment = databaseConnection.createStatement();
+			updateStatment.executeUpdate(query);
+			endTime = System.currentTimeMillis();
+		}
+		catch(SQLException currentError)
+		{
+			endTime = System.currentTimeMillis();
+			displayErrors(currentError);
+		}
+		baseController.getQueryList().add(new QueryInfo(query, endTime - startTime));
+	}
+	
 	/**
 	 * A method that inserts data in to the database.
 	 * @return Shows where the new data affected the table.
