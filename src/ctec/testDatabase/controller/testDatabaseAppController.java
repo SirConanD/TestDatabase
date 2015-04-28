@@ -61,6 +61,9 @@ public class testDatabaseAppController
 		loadTimingInformation();
 	}
 	
+	/**
+	 * 
+	 */
 	private void loadTimingInfo()
 	{
 		
@@ -98,6 +101,9 @@ public class testDatabaseAppController
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void saveTimingInformation()
 	{
 		
