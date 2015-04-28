@@ -29,6 +29,10 @@ public class DynamicDataPanel
 		setupListeners();
 	}
 	
+	/**
+	 * Sets up the panel for the dynamic panel.
+	 * @param selectedTable
+	 */
 	private void setupPanel(String selectedTable)
 	{
 		this.setupLayout(baseLayout);
@@ -61,12 +65,19 @@ public class DynamicDataPanel
 		}
 	}
 	
+	/**
+	 * Sets up the layout for the panel.
+	 */
 	private void setupLayout()
 	{
 		baseLayout.putConstraint(SpringLayout.WEST, queryButton, 161, SpringLayout.WEST, this);
 		baseLayout.putConstraint(SpringLayout.SOUTH, queryButton, -10, SpringLayout.SOUTH, this);
 	}
 	
+	/**
+	 * Gets the fields of the tables.
+	 * @return The info with in tables.
+	 */
 	private String getFields()
 	{
 		String fields = "(";
@@ -87,6 +98,10 @@ public class DynamicDataPanel
 		return fields;
 	}
 	
+	/**
+	 * Gets the values from the fieldList.
+	 * @return
+	 */
 	private String getValues()
 	{
 		String values = "(";
@@ -107,6 +122,9 @@ public class DynamicDataPanel
 		return values;
 	}
 	
+	/**
+	 * Sets up the listener for the button. 
+	 */
 	private void setupListeners()
 	{
 		String query = "INSERT INTO " + "`" + table + "` " + getFields() + " VALUES " + getValues();

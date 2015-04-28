@@ -142,6 +142,10 @@ public class testDatabaseController
 		}
 	}
 	
+	/**
+	 * Gets info from the table.
+	 * @return
+	 */
 	public String [] getMetaDataTitles()
 	{
 		String [] columns = null;
@@ -191,6 +195,7 @@ public class testDatabaseController
 		query = "SELECT * FROM `"+ tableName +"`";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -217,8 +222,7 @@ public class testDatabaseController
 			columns = new String [] {"empty"};
 			displayErrors(currentException);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return columns;
 	}
 	
@@ -234,6 +238,7 @@ public class testDatabaseController
 		this.query = query;
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			if(checkForDataViolation())
@@ -279,8 +284,7 @@ public class testDatabaseController
 									  };
 			displayErrors(currentException);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;		
 	}
 	
@@ -294,6 +298,7 @@ public class testDatabaseController
 		query = "SELECT * FROM `INNIDB_SYS_COLUMNS`";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -329,8 +334,7 @@ public class testDatabaseController
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;		
 	}
 	
@@ -344,6 +348,7 @@ public class testDatabaseController
 		query = "SHOW TABLES";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -374,8 +379,7 @@ public class testDatabaseController
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;
 	}
 	
@@ -389,6 +393,7 @@ public class testDatabaseController
 		query = "SHOW TABLES";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
@@ -408,11 +413,14 @@ public class testDatabaseController
 			endTime = System.currentTimeMillis();
 			displayErrors(currentError);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return tableNames;
 	}
 	
+	/**
+	 * submits the users input into the database.
+	 * @param query
+	 */
 	public void submitUpdateQuery(String query)
 	{
 		this.query = query;

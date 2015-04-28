@@ -16,11 +16,19 @@ public class QueryInfo
 		this.queryTime = queryTime;
 	}
 	
+	/**
+	 * Gets the query method.
+	 * @return Returns the query method.
+	 */
 	public String getQuery()
 	{
 		return query;
 	}
 	
+	/**
+	 * Gets the queryTiem method.
+	 * @return Returns the queryTime method.
+	 */
 	public long getQueryTime()
 	{
 		return queryTime;

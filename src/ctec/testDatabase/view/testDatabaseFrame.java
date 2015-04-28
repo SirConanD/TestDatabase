@@ -3,7 +3,11 @@ package ctec.testDatabase.view;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JFrame;
+
 import ctec.testDatabase.controller.testDatabaseAppController;
 import ctec.testDatabase.controller.testDatabaseController;
 
@@ -29,5 +33,24 @@ public class testDatabaseFrame extends JFrame
 	{
 		this.setContentPane(basePanel);
 		this.setVisible(true);
+	}
+	
+	/**
+	 * Sets up a listener method for the frame.
+	 */
+	private void setupListeners()
+	{
+		addWindowListener(new WindowListener()
+		{
+			public void windowOpened(WindowEvent e)
+			{
+				
+			}
+			
+			public void windowClosing(WindowEvent e)
+			{
+				baseController.saveTimingInformation();
+			}
+		});
 	}
 }
