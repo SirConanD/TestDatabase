@@ -14,6 +14,7 @@ import ctec.testDatabase.controller.testDatabaseController;
 public class testDatabaseFrame extends JFrame
 {
 	private testDatabasePanel basePanel;
+	private testDatabaseAppController baseController;
 	
 	/**
 	 * Creates the frame for the GUI of the database.
@@ -22,8 +23,10 @@ public class testDatabaseFrame extends JFrame
 	public testDatabaseFrame(testDatabaseAppController baseController)
 	{
 		this.setSize(500,500);
+		this.baseController = baseController;
 		basePanel = new testDatabasePanel(baseController);
 		setupFrame();
+		setupListeners();
 	}
 	
 	/**
@@ -44,12 +47,36 @@ public class testDatabaseFrame extends JFrame
 		{
 			public void windowOpened(WindowEvent e)
 			{
-				
 			}
 			
 			public void windowClosing(WindowEvent e)
 			{
 				baseController.saveTimingInformation();
+			}
+
+			@Override
+			public void windowActivated(WindowEvent arg0)
+			{
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e)
+			{
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e)
+			{
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e)
+			{
 			}
 		});
 	}

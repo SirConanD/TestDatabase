@@ -2,6 +2,7 @@ package ctec.testDatabase.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -62,14 +63,6 @@ public class testDatabaseAppController
 	}
 	
 	/**
-	 * 
-	 */
-	private void loadTimingInfo()
-	{
-		
-	}
-	
-	/**
 	 * Gets the time for the loading time.
 	 */
 	private void loadTimingInformation()
@@ -84,8 +77,8 @@ public class testDatabaseAppController
 				while(textScanner.hasNext())
 				{
 					String query = textScanner.nextLine();
-					textScanner.next();
-					queryList.add(new QueryInfo(query, textScanner.nextLong()));
+					long queryTime = Long.parseLong(textScanner.nextLine());
+					queryList.add(new QueryInfo(query, queryTime));
 				}
 				textScanner.close();
 				JOptionPane.showMessageDialog(getAppFrame(), queryList.size() + " QueryInfo objects were loaded into the application");
@@ -102,10 +95,32 @@ public class testDatabaseAppController
 	}
 	
 	/**
-	 * 
+	 * Saves the information from the load timing info method. 
 	 */
 	public void saveTimingInformation()
 	{
-		
+		try
+		{
+			File saveFile = new File("asdasda.save");
+			PrintWriter writer = new PrintWriter(saveFile);
+			if(saveFile.exists())
+			{
+				for(QueryInfo current : queryList)
+				{
+					writer.println(current.getQuery());
+					writer.println(current.getQueryTime());
+				}
+				writer.close();
+				JOptionPane.showMessageDialog(getAppFrame(), queryList.size() + " QueryInfo objects were saved");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(getAppFrame(), "File not present. No QueryInfo objects saved");
+			}
+		}
+		catch(IOException currentError)
+		{
+			dataController.displayErrors(currentError);
+		}
 	}
 }

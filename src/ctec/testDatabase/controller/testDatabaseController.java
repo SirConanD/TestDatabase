@@ -1,3 +1,4 @@
+
 package ctec.testDatabase.controller;
 
 import java.sql.*;
@@ -23,7 +24,7 @@ public class testDatabaseController
 	public testDatabaseController(testDatabaseAppController baseController)
 	{
 		this.baseController = baseController;
-		this.connectionString = "jdbc:mysql://10.227.5.160/book_reading?user=g.fetzer&password=fetz854";
+		this.connectionString = "jdbc:mysql://localhost/gasoline_travel";
 		queryTime = 0;
 		checkDriver();
 		setupConnection();
@@ -152,13 +153,13 @@ public class testDatabaseController
 		query = "SELECT * FROM `INNODB_SYS_COLUMNS`";
 		long startTime, endTime;
 		startTime = System.currentTimeMillis();
+		endTime = 0;
 		try
 		{
 			Statement firstStatement = databaseConnection.createStatement();
 			ResultSet answers = firstStatement.executeQuery(query);
 			//takes the results and turns them into a result.
 			ResultSetMetaData answerData = answers.getMetaData();
-			
 			
 			//gets the answer data and converts it to the number of columns.
 			columns = new String[answerData.getColumnCount()];
@@ -178,11 +179,9 @@ public class testDatabaseController
 			columns = new String [] {"empty"};
 			displayErrors(currentException);
 		}
-		queryTime = endTime - startTime;
-		baseController.getQueryList().add(new QueryInfo(query, queryTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return columns;
 	}
-	
 	
 	
 	/**
@@ -222,7 +221,7 @@ public class testDatabaseController
 			columns = new String [] {"empty"};
 			displayErrors(currentException);
 		}
-		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return columns;
 	}
 	
@@ -284,7 +283,7 @@ public class testDatabaseController
 									  };
 			displayErrors(currentException);
 		}
-		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;		
 	}
 	
@@ -334,7 +333,7 @@ public class testDatabaseController
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;		
 	}
 	
@@ -379,7 +378,7 @@ public class testDatabaseController
 			results = new String [][] {{"empty"}};
 			displayErrors(currentException);
 		}
-		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return results;
 	}
 	
@@ -413,7 +412,7 @@ public class testDatabaseController
 			endTime = System.currentTimeMillis();
 			displayErrors(currentError);
 		}
-		baseController.getTimingInfoList().add(new QueryInfo(currentQuery, endTime-startTime));
+		baseController.getQueryList().add(new QueryInfo(currentQuery, endTime-startTime));
 		return tableNames;
 	}
 	

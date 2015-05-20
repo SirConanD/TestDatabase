@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import ctec.testDatabase.controller.testDatabaseAppController;
 
-public class DynamicDataPanel
+public class DynamicDataPanel extends JPanel
 {
 	private testDatabaseAppController baseController;
 	private JButton queryButton;
@@ -16,6 +16,11 @@ public class DynamicDataPanel
 	private String table;
 	private ArrayList<JTextField> fieldList;
 	
+	/**
+	 * The setters for the methods.
+	 * @param baseController Used to call the controller in other classes.
+	 * @param table builds a table to put info into it.
+	 */
 	public DynamicDataPanel(testDatabaseAppController baseController, String table)
 	{
 		this.baseController = baseController;
@@ -35,7 +40,7 @@ public class DynamicDataPanel
 	 */
 	private void setupPanel(String selectedTable)
 	{
-		this.setupLayout(baseLayout);
+		this.setLayout(baseLayout);
 		this.add(queryButton);
 		int spacing = 50;
 		
@@ -127,12 +132,11 @@ public class DynamicDataPanel
 	 */
 	private void setupListeners()
 	{
-		String query = "INSERT INTO " + "`" + table + "` " + getFields() + " VALUES " + getValues();
-		
 		queryButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent click)
 			{
+				String query = "INSERT INTO " + "`" + table + "` " + getFields() + " VALUES " + getValues();
 				baseController.getDataController().submitUpdateQuery(query);
 			}
 		});

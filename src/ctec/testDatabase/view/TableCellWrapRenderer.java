@@ -11,6 +11,9 @@ import javax.swing.text.Document;
 
 public class TableCellWrapRenderer extends JTextArea implements TableCellRenderer
 {
+	/**
+	 * Wraps the text to fit in the text area.
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 	{
