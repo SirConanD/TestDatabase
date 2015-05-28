@@ -24,7 +24,7 @@ public class testDatabaseController
 	public testDatabaseController(testDatabaseAppController baseController)
 	{
 		this.baseController = baseController;
-		this.connectionString = "jdbc:mysql://localhost/gasoline_travel";
+		this.connectionString = "jdbc:mysql://localhost/gasoline_travel?user=root";
 		queryTime = 0;
 		checkDriver();
 		setupConnection();

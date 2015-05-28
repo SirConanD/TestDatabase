@@ -22,7 +22,7 @@ public class testDatabaseFrame extends JFrame
 	 */
 	public testDatabaseFrame(testDatabaseAppController baseController)
 	{
-		this.setSize(500,500);
+		
 		this.baseController = baseController;
 		basePanel = new testDatabasePanel(baseController);
 		setupFrame();
@@ -34,6 +34,7 @@ public class testDatabaseFrame extends JFrame
 	 */
 	private void setupFrame()
 	{
+		this.setSize(500,500);
 		this.setContentPane(basePanel);
 		this.setVisible(true);
 	}

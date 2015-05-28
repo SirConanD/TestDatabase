@@ -62,7 +62,7 @@ public class testDatabasePanel extends JPanel
 	 */
 	private void setupTable()
 	{
-		resultsTable = new JTable(new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getMetaDataTitles()));
+		resultsTable = new JTable(new DefaultTableModel(baseController.getDataController().testResults(), baseController.getDataController().getDatabaseColumnNames("cities")));
 		
 		displayPane = new JScrollPane(resultsTable);
 		for(int spot = 0; spot < resultsTable.getColumnCount(); spot++)

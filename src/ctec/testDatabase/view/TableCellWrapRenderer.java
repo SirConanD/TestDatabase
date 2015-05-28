@@ -9,24 +9,32 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 
-public class TableCellWrapRenderer extends JTextArea implements TableCellRenderer
+public class TableCellWrapRenderer extends JTextArea implements
+		TableCellRenderer
 {
 	/**
 	 * Wraps the text to fit in the text area.
 	 */
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column)
 	{
-		this.setText(value.toString());
-		this.setWrapStyleWord(true);
-		this.setLineWrap(true);
-		int fontHeight = this.getFontMetrics(this.getFont()).getHeight();
-		int textPixelLength = this.getFontMetrics(this.getFont()).stringWidth(this.getText());
-		TableColumn columnSelected = table.getColumnModel().getColumn(column);
-		int lines = (textPixelLength / (columnSelected.getWidth())) + 1;
-		int height = fontHeight * (lines + 3);
-		table.setRowHeight(row, height);
-		if(row % 2 == 0)
+		if (value != null)
+		{
+			this.setText(value.toString());
+
+			this.setWrapStyleWord(true);
+			this.setLineWrap(true);
+			int fontHeight = this.getFontMetrics(this.getFont()).getHeight();
+			int textPixelLength = this.getFontMetrics(this.getFont())
+					.stringWidth(this.getText());
+			TableColumn columnSelected = table.getColumnModel().getColumn(
+					column);
+			int lines = (textPixelLength / (columnSelected.getWidth())) + 1;
+			int height = fontHeight * (lines + 3);
+			table.setRowHeight(row, height);
+		}
+		if (row % 2 == 0)
 		{
 			this.setBackground(Color.ORANGE);
 		}
